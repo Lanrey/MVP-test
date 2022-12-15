@@ -21,11 +21,13 @@ const register = async (data) => {
 const login = async (data) => {
   try {
     const { userName, password } = data;
-    const user = await findOne({ userName, isDeleted: false });
+    const user = await User.findOne({ userName, isDeleted: false }).select(
+      "+password"
+    );
     if (!user || !(await User.isPasswordMatch(password, user.password))) {
       throw new ApiError(400, "Invalid username or password");
     }
-
+    console.log("jjj");
     if (user && user.token) {
       throw new ApiError(
         400,

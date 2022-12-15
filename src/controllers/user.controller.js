@@ -5,6 +5,8 @@ const pick = require("../helpers/pick");
 
 const createUser = catchAsync(async function (req, res) {
   const user = await userService.register(req.body);
+
+  delete user.password;
   res.status(201).send({
     message: "User created successfully",
     data: {
@@ -15,6 +17,7 @@ const createUser = catchAsync(async function (req, res) {
 
 const login = catchAsync(async function (req, res) {
   const user = await userService.login(req.body);
+  delete user.password
   res.status(201).send({
     message: "User login  successfully",
     data: {
@@ -41,6 +44,7 @@ const userDeposit = catchAsync(async function (req, res) {
   const user = await userService.updateUser(req.user._id, {
     deposit: newPrice,
   });
+
 
   res.status(200).send({
     message: "User updated successfully",

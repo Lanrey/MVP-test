@@ -33,6 +33,13 @@ var userSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
+userSchema.set("toJSON", {
+  transform: function (doc, ret, opt) {
+    delete ret["password"];
+    return ret;
+  },
+});
+
 /**
  * Check if userName is taken
  * @param {string} userName - The user's email
